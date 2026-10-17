@@ -391,37 +391,3 @@ This project is intended for academic and educational purposes only. Its synthet
 
 Department of Computer Science and Engineering  
 JIS University
-
-## License
-
-No license has been specified. Add a `LICENSE` file to establish the terms under which others may use, modify, and distribute the project.
-
----
-
-<div align="center">
-
-**Early Warning System for Critical Patients**
-
-*Exploring the intersection of clinical time-series analysis, deep learning, and early warning visualization.*
-
-</div>
-- **Rahul Ghosh**
-- **Pradyut Kumar De**
-- **Pragya Das**
-
-Department of Computer Science and Engineering  
-JIS University
-
-## License
-
-No license has been specified. Add a `LICENSE` file to establish the terms under which others may use, modify, and distribute the project.
-
----
-
-<div align="center">
-
-**Early Warning System for Critical Patients**
-
-*Exploring the intersection of clinical time-series analysis, deep learning, and early warning visualization.*
-
-</div>
