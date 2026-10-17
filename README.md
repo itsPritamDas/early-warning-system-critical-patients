@@ -1,58 +1,61 @@
-# CNN–LSTM + Attention Research Code
+# Early Warning System for Critical Patients
 
-This folder contains an executable research scaffold aligned with the model architecture described in the project report. It is separate from the static GitHub Pages dashboard.
+An academic project exploring early warning for clinical deterioration using patient vital signs and laboratory time-series.
 
-## Important distinction
+## Live demo
 
-The public dashboard runs without Python and displays synthetic values using an illustrative formula. It does **not** load these model weights or run a trained CNN–LSTM. The report's sample results (including 90.8% accuracy) are not reproduced by this code unless you run a documented experiment on a defined dataset and obtain comparable results.
+https://itspritamdas.github.io/early-warning-system-critical-patients/
 
-## 1. Dataset expectations
+## Project overview
 
-Use only an authorized, de-identified dataset. MIMIC data access may require credentialing, training, and a data-use agreement. Do not commit patient-level data or identifiers to a public repository.
+The website provides an interactive ICU-monitoring dashboard with selectable synthetic patient scenarios, vital-sign trends, an illustrative risk index, alert history, feature-contribution visualization, and a conceptual CNN–LSTM with attention workflow.
 
-Prepare a **wide CSV** with one row per patient observation, containing these exact columns:
+The research report proposes a CNN–LSTM model with temporal attention and discusses preprocessing, patient-level time-series, early warning thresholds, and evaluation. Optional model training code is in the `ml/` directory.
 
-- `patient_id`: pseudonymous grouping key used only for patient-level splitting
-- `timestamp`: observation timestamp parseable by pandas
-- `event_within_horizon`: binary target for whether the chosen deterioration event occurs within your defined future prediction horizon
-- `heart_rate`, `respiratory_rate`, `sbp`, `dbp`, `spo2`, `temperature`, `lactate`, `creatinine`, `wbc`, `platelets`, `gcs`
+## Run the website locally
 
-The outcome label must be created from the study's event definition and prediction horizon before running the script. Define censoring, first-event time, exclusion criteria, and the observation/prediction windows before modeling. This code does not infer clinical labels from raw notes or ICU tables.
+1. Download or clone this repository.
+2. Keep `index.html`, `styles.css`, and `app.js` in the same folder.
+3. Open `index.html` in a modern browser, or serve the folder using a local static server.
 
-## 2. Install dependencies
+No build step or JavaScript package installation is required for the dashboard.
 
-From this folder, create a virtual environment and install the requirements:
+## Interactive features
 
-```bash
-python -m venv .venv
-# Windows PowerShell: .venv\\Scripts\\Activate.ps1
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
+- Stable, sepsis-progression, and cardiac-event synthetic scenarios
+- Risk index and low/elevated/critical display bands
+- Selectable trend chart for risk, heart rate, SpO₂, systolic blood pressure, respiratory rate, or lactate
+- Live-looking vital-sign and laboratory-value table with status and mini trend lines
+- Simulated alert history and clear-log control
+- CSV export of the generated synthetic session
+- Responsive layout for desktop and mobile screens
+- Research-methodology and proposed CNN–LSTM + attention architecture sections
+
+## Project structure
+
+```text
+early-warning-system-critical-patients/
+├── index.html
+├── styles.css
+├── app.js
+├── README.md
+└── ml/
+    ├── README.md
+    ├── model.py
+    ├── prepare_data.py
+    ├── train.py
+    └── requirements.txt
 ```
 
-## 3. Prepare the data
+## Important limitation
 
-```bash
-python prepare_data.py --input /path/to/authorized_deidentified_data.csv --output-dir processed --sequence-length 12
-```
+The GitHub Pages website is a **front-end simulation**. It generates synthetic values in the browser and computes an illustrative risk index with a formula. It does not connect to patient records, load trained model weights, or run CNN–LSTM inference. Do not interpret its score as a clinical probability or use it for diagnosis or treatment. The figures in the project report should be described as reported/sample results unless the corresponding experiment can be reproduced from a defined dataset, split, and saved model.
 
-The script resamples each patient to hourly records, forward-fills within a patient, imputes remaining feature gaps with medians from the training patients, splits at patient level, and fits normalization statistics on the training split only. It saves `train.npz`, `validation.npz`, `test.npz`, `scaler.npz`, and `manifest.json` to the output directory. Every split must contain enough records to create at least one full sequence.
+## Contributors
 
-## 4. Train and evaluate
+Rajib Roy, Pritam Das, Rahul Ghosh, Pradyut Kumar De, and Pragya Das  
+Department of Computer Science and Engineering, JIS University
 
-```bash
-python train.py --data-dir processed --output-dir artifacts --epochs 30 --batch-size 64
-```
+## License
 
-The model combines 1D convolution, a bidirectional LSTM, temporal attention, and a binary classifier. Training uses weighted binary cross-entropy and early stopping on validation loss. The script saves the best checkpoint, validation/test metrics, and training-loss history. Metrics include accuracy, precision, sensitivity/recall, F1, AUROC, AUPRC when both classes are present, and the confusion matrix.
-
-## Before reporting model performance
-
-- Keep all windows from a patient in a single split.
-- Define labels and prediction horizons without using future inputs.
-- Inspect positive/negative case counts and data leakage risks.
-- Compare against appropriate baselines using the same split and features.
-- Report AUROC, AUPRC, sensitivity, precision, calibration, false alerts per patient-day, and lead time, not accuracy alone.
-- Perform external validation and clinical review before considering deployment.
-
-This code is an educational research scaffold and is not a medical device.
+No license is specified. Add a `LICENSE` file if you want to publish the project under an open-source license.
