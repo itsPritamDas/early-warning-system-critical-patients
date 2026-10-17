@@ -1,17 +1,19 @@
-<div align="center">
-
 # 🏥 Early Warning System for Critical Patients
+
+<div align="center">
 
 ### An Interactive Critical-Care Monitoring Dashboard
 
 **Simulated Vital Signs · Risk Visualization · Early Warning Alerts**
 
 ![Academic Demo](https://img.shields.io/badge/Project-Academic%20Demo-0f766e?style=for-the-badge)
-![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-*A browser-based prototype that simulates patient vital signs and visualizes illustrative deterioration-risk scores through a modern clinical monitoring dashboard.*
+*A browser-based prototype for visualizing simulated patient vital signs and illustrative deterioration-risk scores.*
+
+[**🚀 Live Demo**](https://itspritamdas.github.io/early-warning-system-critical-patients/)
 
 </div>
 
@@ -19,7 +21,7 @@
 
 ## ✨ Overview
 
-The **Early Warning System for Critical Patients** is an academic project that demonstrates how an interactive dashboard can visualize changes in critical-care vital signs and display potential warning states.
+The **Early Warning System for Critical Patients** is an academic project demonstrating how an interactive dashboard can visualize changes in critical-care vital signs and display potential warning states.
 
 Choose a patient scenario, observe synthetic vital signs, and explore the risk gauge, timeline, feature-contribution bars, and alert log.
 
@@ -30,14 +32,14 @@ Choose a patient scenario, observe synthetic vital signs, and explore the risk g
 
 | Feature | Description |
 |---|---|
-| 🧑‍⚕️ Patient Scenarios | Stable patient, sepsis-onset pattern, and cardiac-event pattern |
+| 🧑‍⚕️ Patient Scenarios | Stable, sepsis-onset, and cardiac-event simulations |
 | 💓 Live Vital Signs | Heart rate, SpO₂, systolic blood pressure, respiratory rate, temperature, and lactate |
 | 📊 Risk Gauge | Displays an illustrative deterioration-risk score |
 | 📈 Risk Timeline | Visualizes changes in risk throughout the simulation |
-| 🧩 Feature Contributions | Shows each vital sign's relative contribution to the calculated score |
+| 🧩 Feature Contributions | Shows the relative contribution of each vital sign |
 | 🚨 Alert System | Generates warning and critical alerts |
-| 📉 Vital Trends | Displays small charts for individual measurements |
-| 🎮 Interactive Controls | Start, reset, and switch between simulation scenarios |
+| 📉 Vital Trends | Displays charts for individual measurements |
+| 🎮 Interactive Controls | Start, reset, and switch between scenarios |
 | 📱 Responsive UI | Modern, dark-themed monitoring dashboard |
 
 ## 🩺 Vital Signs Monitored
@@ -51,7 +53,7 @@ Choose a patient scenario, observe synthetic vital signs, and explore the risk g
 | Temperature | °C | 36.5–37.5 |
 | Lactate | mmol/L | 0.5–2.0 |
 
-*These are simplified ranges used by the demo, not individualized clinical thresholds.*
+*These simplified ranges are used for demonstration and are not individualized clinical thresholds.*
 
 ## 🚦 Risk Classification
 
@@ -96,7 +98,7 @@ Update Dashboard and Alert Log
 ![SVG](https://img.shields.io/badge/SVG-Visualization-purple?style=flat-square)
 
 - **HTML5** — dashboard structure
-- **CSS3** — styling, responsive layout, and status indicators
+- **CSS3** — styling and responsive layout
 - **Vanilla JavaScript** — simulation logic and interactions
 - **SVG** — risk gauge, sparklines, and timeline
 - **Google Fonts** — Space Grotesk, IBM Plex Sans, and IBM Plex Mono
@@ -108,16 +110,14 @@ No framework, package installation, backend, or API key is required.
 ### Prerequisites
 
 - A modern web browser such as Google Chrome, Microsoft Edge, or Firefox
-- Git (optional, for cloning the repository)
+- Git (optional)
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd YOUR_REPOSITORY
+git clone https://github.com/itsPritamDas/early-warning-system-critical-patients.git
+cd early-warning-system-critical-patients
 ```
-
-Replace `YOUR_USERNAME` and `YOUR_REPOSITORY` with your GitHub username and repository name.
 
 ### 2. Run the Application
 
@@ -134,8 +134,8 @@ Open `index.html` directly in your browser.
 
 ```text
 early-warning-system-critical-patients/
-├── index.html    # Dashboard, styles, and JavaScript simulation
-└── README.md     # Project documentation
+├── index.html
+└── README.md
 ```
 
 The current implementation is contained in a single HTML file.
@@ -149,7 +149,7 @@ The wider academic project explores a proposed **CNN-LSTM architecture with an a
 - **Attention:** Intended to emphasize relevant time steps.
 - **Risk output:** Intended to support threshold-based warning generation.
 
-**Current implementation status:** The neural network is part of the research concept, not the browser demo. The current dashboard uses synthetic data and a formula-based risk score.
+**Implementation status:** These neural-network components belong to the research concept, not the current browser demo. The dashboard uses synthetic data and a formula-based risk score.
 
 ## 🔭 Future Improvements
 
@@ -162,8 +162,9 @@ The wider academic project explores a proposed **CNN-LSTM architecture with an a
 
 ## 👥 Contributors
 
-- Rajib Roy
+
 - **Pritam Das**
+- Rajib Roy
 - Rahul Ghosh
 - Pradyut Kumar De
 - Pragya Das
