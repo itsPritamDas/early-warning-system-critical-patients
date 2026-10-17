@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="An academic prototype for critical patient monitoring, deterioration-risk visualization, and early warning alerts using simulated ICU time-series data.">
+  <title>Sentinel ICU — Early Warning System for Critical Patients</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview" aria-label="Sentinel ICU home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M18 3.5 30 8v8.8c0 7.1-4.9 12.7-12 15.7C10.9 29.5 6 23.9 6 16.8V8l12-4.5Z"/><path d="M18 10v16M10 18h16"/></svg></span>
+        <span><strong>Sentinel<span>ICU</span></strong><small>EARLY WARNING SYSTEM</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview"><span class="nav-icon">◫</span> Overview <span class="nav-dot"></span></a>
+        <a class="nav-link" href="#monitor"><span class="nav-icon">⌁</span> Patient monitor</a>
+        <a class="nav-link" href="#alerts"><span class="nav-icon">♧</span> Alert history</a>
+        <a class="nav-link" href="#model"><span class="nav-icon">◇</span> Model design</a>
+        <a class="nav-link" href="#methodology"><span class="nav-icon">☷</span> Methodology</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-status"><span class="status-pulse"></span><div><b>Demo environment</b><small>Synthetic data only</small></div></div>
+        <div class="sidebar-note">ACADEMIC PROTOTYPE<br>Not for clinical decisions</div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <button class="menu-button" id="menuButton" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <div class="breadcrumb"><span>Workspace</span><i>/</i><b>Critical care overview</b></div>
+        <div class="topbar-right"><span class="live-pill"><span></span> SIMULATION MODE</span><span class="avatar" title="Project workspace">EW</span></div>
+      </header>
+
+      <section class="page-heading">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> CLINICAL INTELLIGENCE / PROTOTYPE</div>
+          <h1>Early Warning <span>System</span></h1>
+          <p class="page-subtitle">A time-series view of patient stability, deterioration trends, and simulated escalation alerts.</p>
+        </div>
+        <div class="heading-actions"><button class="btn btn-secondary" id="exportBtn" type="button"><span>↓</span> Export session</button><button class="btn btn-primary" id="runBtn" type="button"><span id="runIcon">▶</span><span id="runLabel">Run simulation</span></button></div>
+      </section>
+
+      <div class="notice-banner" role="note"><span class="notice-icon">i</span><div><b>Research demo — not a clinical device.</b> All values below are synthetic and the displayed risk index is illustrative. No trained CNN–LSTM model or live hospital feed is connected to this web demo.</div><button type="button" class="notice-dismiss" id="dismissNotice" aria-label="Dismiss notice">×</button></div>
+
+      <section class="patient-toolbar" aria-label="Simulation controls">
+        <div class="patient-identity"><div class="patient-symbol"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.2" r="3.3"/><path d="M5 20v-1.4a7 7 0 0 1 14 0V20Z"/></svg></div><div><div class="patient-name">Simulated ICU patient <span class="id-chip">EW-0247</span></div><div class="patient-meta">Adult · General ICU · Synthetic case profile</div></div></div>
+        <div class="toolbar-controls"><label for="scenarioSelect">PATIENT SCENARIO</label><select id="scenarioSelect"><option value="stable">Stable baseline</option><option value="sepsis">Sepsis progression</option><option value="cardiac">Cardiac event</option></select><span class="toolbar-divider"></span><span class="recording-state"><span class="recording-dot" id="recordingDot"></span><span id="recordingText">Ready to run</span></span></div>
+      </section>
+
+      <section class="summary-grid" aria-label="Risk summary">
+        <article class="summary-card risk-summary"><div class="card-topline"><span>DETERIORATION RISK INDEX</span><span class="micro-tag">ILLUSTRATIVE</span></div><div class="risk-main"><div><div class="risk-number"><span id="riskValue">08</span><small>/100</small></div><div class="risk-state"><span class="state-dot stable" id="riskDot"></span><strong id="riskLabel">Low risk</strong><span class="state-caption" id="riskCaption">Stable pattern</span></div></div><div class="risk-gauge"><svg viewBox="0 0 104 104" role="img" aria-label="Risk index gauge"><circle class="gauge-track" cx="52" cy="52" r="43"/><circle class="gauge-progress" id="gaugeProgress" cx="52" cy="52" r="43"/></svg><div class="gauge-center"><span id="gaugeLabel">08</span><small>INDEX</small></div></div></div><div class="risk-foot"><span id="riskTrend">→ No significant rise</span><span>Demo threshold bands</span></div></article>
+        <article class="summary-card"><div class="card-topline"><span>MONITORING WINDOW</span><span class="metric-icon teal">◷</span></div><div class="metric-value" id="windowValue">00:00<span>h</span></div><div class="metric-bottom"><span class="mini-bar"><i style="width:4%" id="windowBar"></i></span><span id="tickValue">0 / 60 ticks</span></div><div class="metric-footnote">12 simulated minutes per tick</div></article>
+        <article class="summary-card"><div class="card-topline"><span>ACTIVE ALERTS</span><span class="metric-icon amber">⌁</span></div><div class="metric-value" id="alertCount">0</div><div class="metric-bottom"><span class="soft-status" id="alertStatus">No alerts</span><span class="alert-mini-track"><i id="alertBar" style="width:0%"></i></span></div><div class="metric-footnote">Triggered by demo risk bands</div></article>
+        <article class="summary-card"><div class="card-topline"><span>MODEL STATUS</span><span class="metric-icon violet">◇</span></div><div class="model-status-value"><span class="model-status-dot"></span> Research design</div><div class="model-status-desc">CNN–LSTM + attention</div><div class="model-status-bottom"><span class="outline-chip">Not connected to inference</span></div></article>
+      </section>
+
+      <section class="content-grid" id="monitor">
+        <article class="panel trend-panel"><div class="panel-heading"><div><div class="panel-kicker">LIVE SIGNALS</div><h2>Physiological trend</h2><p>Observe how readings change during each scenario.</p></div><div class="panel-tools"><label class="sr-only" for="trendMetric">Trend measurement</label><select id="trendMetric" class="compact-select"><option value="risk">Risk index</option><option value="heartRate">Heart rate</option><option value="spo2">SpO₂</option><option value="sbp">Systolic BP</option><option value="respiratoryRate">Respiratory rate</option><option value="lactate">Lactate</option></select></div></div><div class="chart-legend" id="chartLegend"><span><i class="legend-line risk-line"></i> Risk index</span><span class="chart-live"><i></i> SIMULATED</span></div><div class="chart-wrap"><canvas id="trendChart" aria-label="Time series chart for selected simulated measurement" role="img"></canvas><div class="chart-empty" id="chartEmpty" hidden>Run the simulation to build a time series.</div></div><div class="chart-footer"><span>START <b id="chartStart">T+00:00</b></span><span class="chart-footer-center">Synthetic observation sequence</span><span>NOW <b id="chartNow">T+00:00</b></span></div></article>
+
+        <article class="panel alert-panel" id="alerts"><div class="panel-heading"><div><div class="panel-kicker">EVENT STREAM</div><h2>Alert history</h2><p>Threshold-band transitions in this session.</p></div><span class="counter-badge" id="eventCounter">00</span></div><div class="alert-list" id="alertList" aria-live="polite"><div class="empty-state"><span class="empty-icon">⌁</span><b>No alerts recorded</b><span>Run a scenario to see simulated events here.</span></div></div><div class="panel-bottom-link"><span>Alerts are illustrative, not clinically validated.</span><button id="clearAlertsBtn" type="button">Clear log</button></div></article>
+      </section>
+
+      <section class="panel vitals-panel"><div class="panel-heading"><div><div class="panel-kicker">MULTIVARIATE OBSERVATIONS</div><h2>Vital signs & laboratory values</h2><p>Reference ranges are simplified educational examples.</p></div><span class="last-updated"><span class="pulse-small"></span><span id="lastUpdated">Waiting for simulation</span></span></div><div class="vitals-table-wrap"><table class="vitals-table"><thead><tr><th>MEASUREMENT</th><th>READING</th><th>REFERENCE RANGE</th><th>STATUS</th><th>TREND</th></tr></thead><tbody id="vitalsBody"></tbody></table></div><div class="table-note"><span>ⓘ</span> Values and reference ranges are synthetic/simplified. Clinical interpretation requires qualified professionals.</div></section>
+
+      <section class="lower-grid">
+        <article class="panel contributions-panel"><div class="panel-heading"><div><div class="panel-kicker">EXPLAINABILITY VIEW</div><h2>Risk signal contribution</h2><p>Which simulated signals are influencing the demo index?</p></div><span class="outline-chip">Illustrative only</span></div><div class="contribution-list" id="contributionList"></div><div class="contribution-foot"><span class="contribution-key"><i class="key-high"></i> Higher deviation</span><span class="contribution-key"><i class="key-low"></i> Lower deviation</span></div></article>
+        <article class="panel workflow-panel"><div class="panel-heading"><div><div class="panel-kicker">SYSTEM WORKFLOW</div><h2>From observation to alert</h2><p>Proposed research pipeline from your report.</p></div></div><div class="workflow-steps"><div class="workflow-step done"><span>01</span><div><b>Acquire</b><small>Vitals & laboratory values</small></div><i>✓</i></div><div class="workflow-step done"><span>02</span><div><b>Preprocess</b><small>Resample, impute, normalize</small></div><i>✓</i></div><div class="workflow-step active-step"><span>03</span><div><b>Extract time features</b><small>Windowed values & trends</small></div><i>→</i></div><div class="workflow-step proposed"><span>04</span><div><b>CNN–LSTM + attention</b><small>Proposed model architecture</small></div><i>○</i></div><div class="workflow-step proposed"><span>05</span><div><b>Risk & escalation</b><small>Calibrated threshold → alert</small></div><i>○</i></div></div><div class="workflow-foot"><span class="workflow-dot"></span> Live demo currently uses synthetic data and an illustrative formula.</div></article>
+      </section>
+
+      <section class="panel model-panel" id="model"><div class="panel-heading"><div><div class="panel-kicker">RESEARCH ARCHITECTURE</div><h2>CNN–LSTM with temporal attention</h2><p>Conceptual architecture described in the project report.</p></div><span class="outline-chip violet-chip">Proposed model</span></div><div class="architecture" aria-label="Proposed model architecture diagram"><div class="arch-node"><span class="arch-icon">▦</span><b>Input sequence</b><small>6–12 hourly steps</small><em>Multivariate ICU data</em></div><span class="arch-arrow">→</span><div class="arch-node"><span class="arch-icon">⌁</span><b>1D CNN</b><small>Local patterns</small><em>Signal features</em></div><span class="arch-arrow">→</span><div class="arch-node"><span class="arch-icon">↝</span><b>LSTM layers</b><small>Temporal context</small><em>Sequence memory</em></div><span class="arch-arrow">→</span><div class="arch-node attention-node"><span class="arch-icon">✳</span><b>Attention</b><small>Weighted time steps</small><em>Interpretability view</em></div><span class="arch-arrow">→</span><div class="arch-node output-node"><span class="arch-icon">◎</span><b>Risk output</b><small>Score 0–1</small><em>Threshold → alert</em></div></div><div class="model-note"><span>ⓘ</span><p>This is a conceptual diagram of the reported research design. The current browser demo does not load trained weights, calculate model attention, or reproduce the report’s experimental metrics.</p></div></section>
+
+      <section class="lower-grid methodology-grid" id="methodology"><article class="panel methodology-panel"><div class="panel-heading"><div><div class="panel-kicker">DATA PIPELINE</div><h2>Preprocessing workflow</h2><p>As specified in the report.</p></div></div><ol class="method-list"><li><b>Time alignment</b><span>Resample irregular measurements to a fixed hourly grid.</span></li><li><b>Missing-value handling</b><span>Forward-fill available history, then use training-set medians for remaining gaps.</span></li><li><b>Outlier review</b><span>Flag observations outside plausible physiological ranges for inspection.</span></li><li><b>Normalization</b><span>Standardize continuous features using training-set statistics only.</span></li><li><b>Window generation</b><span>Build 6–12 hour sequences with labels defined by a future prediction horizon.</span></li></ol></article><article class="panel evaluation-panel"><div class="panel-heading"><div><div class="panel-kicker">MODEL EVALUATION</div><h2>What to measure</h2><p>Metrics for a reproducible, leakage-aware evaluation.</p></div></div><div class="metric-checklist"><div><span class="checkmark">✓</span><div><b>AUROC & AUPRC</b><small>Discrimination under class imbalance</small></div></div><div><span class="checkmark">✓</span><div><b>Sensitivity & precision</b><small>Detection versus false-alert burden</small></div></div><div><span class="checkmark">✓</span><div><b>Lead time</b><small>How early a warning precedes the event</small></div></div><div><span class="checkmark">✓</span><div><b>External validation</b><small>Generalization across patient cohorts</small></div></div></div><div class="evaluation-caution">The report lists sample accuracy results; they should only be presented as verified model performance when reproducible training logs and a defined evaluation dataset are available.</div></article></section>
+
+      <footer class="app-footer"><div class="footer-brand"><span class="brand-mark small-mark"><svg viewBox="0 0 36 36"><path d="M18 3.5 30 8v8.8c0 7.1-4.9 12.7-12 15.7C10.9 29.5 6 23.9 6 16.8V8l12-4.5Z"/><path d="M18 10v16M10 18h16"/></svg></span><span><b>Sentinel ICU</b><small>Early Warning System for Critical Patients</small></span></div><div class="footer-meta">Academic prototype · Synthetic data · Not for clinical use</div><a href="https://github.com/itsPritamDas/early-warning-system-critical-patients" target="_blank" rel="noreferrer">View repository ↗</a></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>

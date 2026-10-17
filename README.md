@@ -1,188 +1,58 @@
-# 🏥 Early Warning System for Critical Patients
+# CNN–LSTM + Attention Research Code
 
-<div align="center">
+This folder contains an executable research scaffold aligned with the model architecture described in the project report. It is separate from the static GitHub Pages dashboard.
 
-### An Interactive Critical-Care Monitoring Dashboard
+## Important distinction
 
-**Simulated Vital Signs · Risk Visualization · Early Warning Alerts**
+The public dashboard runs without Python and displays synthetic values using an illustrative formula. It does **not** load these model weights or run a trained CNN–LSTM. The report's sample results (including 90.8% accuracy) are not reproduced by this code unless you run a documented experiment on a defined dataset and obtain comparable results.
 
-![Academic Demo](https://img.shields.io/badge/Project-Academic%20Demo-0f766e?style=for-the-badge)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+## 1. Dataset expectations
 
-*A browser-based prototype for visualizing simulated patient vital signs and illustrative deterioration-risk scores.*
+Use only an authorized, de-identified dataset. MIMIC data access may require credentialing, training, and a data-use agreement. Do not commit patient-level data or identifiers to a public repository.
 
-[**🚀 Live Demo**](https://itspritamdas.github.io/early-warning-system-critical-patients/)
+Prepare a **wide CSV** with one row per patient observation, containing these exact columns:
 
-</div>
+- `patient_id`: pseudonymous grouping key used only for patient-level splitting
+- `timestamp`: observation timestamp parseable by pandas
+- `event_within_horizon`: binary target for whether the chosen deterioration event occurs within your defined future prediction horizon
+- `heart_rate`, `respiratory_rate`, `sbp`, `dbp`, `spo2`, `temperature`, `lactate`, `creatinine`, `wbc`, `platelets`, `gcs`
 
----
+The outcome label must be created from the study's event definition and prediction horizon before running the script. Define censoring, first-event time, exclusion criteria, and the observation/prediction windows before modeling. This code does not infer clinical labels from raw notes or ICU tables.
 
-## ✨ Overview
+## 2. Install dependencies
 
-The **Early Warning System for Critical Patients** is an academic project demonstrating how an interactive dashboard can visualize changes in critical-care vital signs and display potential warning states.
-
-Choose a patient scenario, observe synthetic vital signs, and explore the risk gauge, timeline, feature-contribution bars, and alert log.
-
-> [!IMPORTANT]
-> **This is a simulation, not a clinical AI model.** The current implementation generates synthetic data and calculates an illustrative risk score using a formula. It does not run a trained CNN-LSTM neural network or connect to real hospital systems.
-
-## 🎯 Key Features
-
-| Feature | Description |
-|---|---|
-| 🧑‍⚕️ Patient Scenarios | Stable, sepsis-onset, and cardiac-event simulations |
-| 💓 Live Vital Signs | Heart rate, SpO₂, systolic blood pressure, respiratory rate, temperature, and lactate |
-| 📊 Risk Gauge | Displays an illustrative deterioration-risk score |
-| 📈 Risk Timeline | Visualizes changes in risk throughout the simulation |
-| 🧩 Feature Contributions | Shows the relative contribution of each vital sign |
-| 🚨 Alert System | Generates warning and critical alerts |
-| 📉 Vital Trends | Displays charts for individual measurements |
-| 🎮 Interactive Controls | Start, reset, and switch between scenarios |
-| 📱 Responsive UI | Modern, dark-themed monitoring dashboard |
-
-## 🩺 Vital Signs Monitored
-
-| Measurement | Unit | Reference Range |
-|---|---|---|
-| Heart Rate | bpm | 60–100 |
-| Oxygen Saturation (SpO₂) | % | 95–100 |
-| Systolic Blood Pressure | mmHg | 100–130 |
-| Respiratory Rate | /min | 12–20 |
-| Temperature | °C | 36.5–37.5 |
-| Lactate | mmol/L | 0.5–2.0 |
-
-*These simplified ranges are used for demonstration and are not individualized clinical thresholds.*
-
-## 🚦 Risk Classification
-
-| Risk Score | Status |
-|---|---|
-| Below 50% | 🟢 Stable |
-| 50% to below 75% | 🟠 Warning |
-| 75% or above | 🔴 Critical |
-
-The JavaScript logic calculates weighted vital-sign deviations and worsening trends, then applies a sigmoid transformation to produce a score between 0 and 100.
-
-**The score is illustrative and is not a clinically calibrated probability.**
-
-## ⚙️ How It Works
-
-```text
-Select Patient Scenario
-          ↓
-Generate Synthetic Vital Signs
-          ↓
-Compare Measurements with Reference Ranges
-          ↓
-Calculate Weighted Deviations and Trends
-          ↓
-Apply Sigmoid Score Transformation
-          ↓
-Classify Risk Status
-          ↓
-Update Dashboard and Alert Log
-```
-
-- **60 simulation ticks**
-- **12 simulated minutes per tick**
-- **12 simulated hours** represented by the full timeline
-- Dashboard updates approximately every 550 milliseconds while running
-
-## 🛠️ Technology Stack
-
-![HTML5](https://img.shields.io/badge/HTML5-Markup-orange?style=flat-square&logo=html5)
-![CSS3](https://img.shields.io/badge/CSS3-Styling-blue?style=flat-square&logo=css3)
-![JavaScript](https://img.shields.io/badge/Vanilla%20JavaScript-Logic-yellow?style=flat-square&logo=javascript)
-![SVG](https://img.shields.io/badge/SVG-Visualization-purple?style=flat-square)
-
-- **HTML5** — dashboard structure
-- **CSS3** — styling and responsive layout
-- **Vanilla JavaScript** — simulation logic and interactions
-- **SVG** — risk gauge, sparklines, and timeline
-- **Google Fonts** — Space Grotesk, IBM Plex Sans, and IBM Plex Mono
-
-No framework, package installation, backend, or API key is required.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- A modern web browser such as Google Chrome, Microsoft Edge, or Firefox
-- Git (optional)
-
-### 1. Clone the Repository
+From this folder, create a virtual environment and install the requirements:
 
 ```bash
-git clone https://github.com/itsPritamDas/early-warning-system-critical-patients.git
-cd early-warning-system-critical-patients
+python -m venv .venv
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### 2. Run the Application
+## 3. Prepare the data
 
-Open `index.html` directly in your browser.
-
-### 3. Start the Simulation
-
-1. Select a patient scenario from the dropdown.
-2. Click **Run Simulation**.
-3. Monitor the vital signs, risk gauge, timeline, and alert log.
-4. Click **Reset** to restart the simulation.
-
-## 📁 Project Structure
-
-```text
-early-warning-system-critical-patients/
-├── index.html
-└── README.md
+```bash
+python prepare_data.py --input /path/to/authorized_deidentified_data.csv --output-dir processed --sequence-length 12
 ```
 
-The current implementation is contained in a single HTML file.
+The script resamples each patient to hourly records, forward-fills within a patient, imputes remaining feature gaps with medians from the training patients, splits at patient level, and fits normalization statistics on the training split only. It saves `train.npz`, `validation.npz`, `test.npz`, `scaler.npz`, and `manifest.json` to the output directory. Every split must contain enough records to create at least one full sequence.
 
-## 🧠 Research Context
+## 4. Train and evaluate
 
-The wider academic project explores a proposed **CNN-LSTM architecture with an attention mechanism** for ICU time-series analysis.
+```bash
+python train.py --data-dir processed --output-dir artifacts --epochs 30 --batch-size 64
+```
 
-- **CNN:** Intended to extract short-term patterns from physiological signals.
-- **LSTM:** Intended to model temporal dependencies.
-- **Attention:** Intended to emphasize relevant time steps.
-- **Risk output:** Intended to support threshold-based warning generation.
+The model combines 1D convolution, a bidirectional LSTM, temporal attention, and a binary classifier. Training uses weighted binary cross-entropy and early stopping on validation loss. The script saves the best checkpoint, validation/test metrics, and training-loss history. Metrics include accuracy, precision, sensitivity/recall, F1, AUROC, AUPRC when both classes are present, and the confusion matrix.
 
-**Implementation status:** These neural-network components belong to the research concept, not the current browser demo. The dashboard uses synthetic data and a formula-based risk score.
+## Before reporting model performance
 
-## 🔭 Future Improvements
+- Keep all windows from a patient in a single split.
+- Define labels and prediction horizons without using future inputs.
+- Inspect positive/negative case counts and data leakage risks.
+- Compare against appropriate baselines using the same split and features.
+- Report AUROC, AUPRC, sensitivity, precision, calibration, false alerts per patient-day, and lead time, not accuracy alone.
+- Perform external validation and clinical review before considering deployment.
 
-- Implement and train a CNN-LSTM model with attention.
-- Integrate a trained model through a backend API.
-- Add authorized, de-identified ICU datasets.
-- Evaluate using AUROC, AUPRC, sensitivity, specificity, and prediction lead time.
-- Add explainability visualizations based on a trained model.
-- Validate performance across multiple datasets before considering clinical use.
-
-## 👥 Contributors
-
-- **Pritam Das**
-- Rajib Roy
-- Rahul Ghosh
-- Pradyut Kumar De
-- Pragya Das
-
-**Department of Computer Science and Engineering**  
-JIS University
-
-## ⚠️ Disclaimer
-
-This project is intended for educational, academic, and demonstration purposes only. It uses synthetic patient data and a formula-based risk score. It is not a trained or clinically validated medical AI system, is not a medical device, and must not be used to diagnose, monitor, or treat patients or make clinical decisions.
-
-## 📄 License
-
-No license has been specified yet. Add a `LICENSE` file if you decide to distribute this project under an open-source license.
-
----
-
-<div align="center">
-
-**Built as an academic project exploring early-warning visualization for critical care.**
-
-</div>
+This code is an educational research scaffold and is not a medical device.
